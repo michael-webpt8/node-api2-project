@@ -1,9 +1,12 @@
 const express = require('express');
 const db = require('../data/db');
+const commentsRouter = require('./comments');
 
 const router = express.Router({
   mergeParams: true
 });
+
+router.use('/', commentsRouter);
 
 /**
  * End point: `/api/posts`
