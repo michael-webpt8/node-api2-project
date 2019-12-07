@@ -4,12 +4,17 @@ const db = require('../data/db');
 const router = express.Router({
   mergeParams: true
 });
-
+/**
+ * End point: `/api/posts/:id/comments`
+ * method: GET
+ * description: gets comments if available for id.
+ * statuses: 200, 404, 500
+ */
 router.get('/:id/comments', (req, res) => {
   db.findPostComments(req.params.id)
     .then(data => {
       if (data.length) {
-        res.json(data);
+        res.status(200).json(data);
       } else {
         res
           .status(404)
