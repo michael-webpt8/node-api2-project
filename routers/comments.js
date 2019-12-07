@@ -28,6 +28,12 @@ router.get('/:id/comments', (req, res) => {
     });
 });
 
+/**
+ * end point: `/api/posts/:id/comments`
+ * method: POST
+ * description: post new message to comments on id specified.
+ * statuses: 500
+ */
 router.post('/:id/comments', (req, res) => {
   console.log('ID', req.params.id)
   console.log('Params', req.params);
