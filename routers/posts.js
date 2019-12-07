@@ -12,12 +12,12 @@ router.use('/', commentsRouter);
  * End point: `/api/posts`
  * Method: GET
  * description: get all the posts
- * Statuses: 500
+ * Statuses: 200, 500
  */
 router.get('/', (req, res) => {
   db.find()
     .then(data => {
-      res.json(data);
+      res.status(200).json(data);
     })
     .catch(err => {
       res.status(500).json({
