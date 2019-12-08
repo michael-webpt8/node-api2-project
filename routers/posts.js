@@ -80,4 +80,45 @@ router.get('/:id', (req, res) => {
     });
 });
 
+/**
+ * End point : `api/posts/:id`
+ * method: PUT
+ * description: update post at specified ID.
+ */
+router.put('/:id', (req, res) => {
+  console.log(req.params);
+  db.findById(req.params.id)
+    .then(post => {
+      if (!req.body.title || !req.body.contents) {
+        return res.status(400).json({ errorMessage: "please enter title and contents." })
+      } else if (!post) {
+        res
+          .status(404)
+          .json({ message: 'The post with the specified ID does not exist' });
+      } else {
+
+        const newPost = {
+          title: req.body.title,
+          contents: req.body.contents
+        }
+
+        db.update(req.params.id, newPost)
+          .then(post => {
+            console.log('POST?', newPost)
+            if (post) {
+              res.status(200).json(newPost);
+            } else {
+              res.status(400).json({ errorMessage: "data was unable to post." })
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            res
+              .status(500)
+              .json({ error: 'The post information could not be retrieved.' });
+          })
+      }
+    })
+});
+
 module.exports = router;
