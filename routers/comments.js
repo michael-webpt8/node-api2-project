@@ -35,20 +35,18 @@ router.get('/:id/comments', (req, res) => {
  * statuses: 500
  */
 router.post('/:id/comments', (req, res) => {
-  console.log('ID', req.params.id)
-  console.log('Params', req.params);
+  // console.log('ID', req.params.id)
+  // console.log('Params', req.params);
   db.findCommentById(req.params.id)
-
-
     .then(comment => {
-      if (comment.length > 0) {
-        console.log(comment.comment.text);
+      if (comment.length) {
+        if (!req.body.text || !req.body.post) {
+          return res
+            .status(400)
+            .json({ errorMessage: 'Please Provide text ', comment });
+        }
       }
-      // if (!req.params.text || !req.params.post) {
-      //   return res
-      //     .status(400)
-      //     .json({ errorMessage: 'Please Provide text ', comment });
-      console.log('COMMENT', comment);
+      // console.log('COMMENT', comment);
 
     })
     .catch(err => {
