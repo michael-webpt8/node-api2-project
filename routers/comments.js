@@ -55,6 +55,11 @@ router.post('/:commentsId/comments', (req, res) => {
     });
 });
 
+/**
+ * end point: `/api/posts/:commentsId/comments`
+ * method: GET
+ * description: gets comments from commentsId specified
+ */
 router.get('/:commentsId/comments', (req, res) => {
   // console.log('ID', req.params.id)
   // console.log('Params', req.params);
