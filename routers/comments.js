@@ -34,10 +34,10 @@ router.get('/:id/comments', (req, res) => {
  * description: post new message to comments on id specified.
  * statuses: 500
  */
-router.post('/:id/comments', (req, res) => {
+router.post('/:commentsId/comments', (req, res) => {
   // console.log('ID', req.params.id)
   // console.log('Params', req.params);
-  db.findCommentById(req.params.id)
+  db.findCommentById(req.params.commentsId)
     .then(comment => {
       if (comment.length) {
         if (!req.body.text || !req.body.post) {
@@ -45,6 +45,27 @@ router.post('/:id/comments', (req, res) => {
             .status(400)
             .json({ errorMessage: 'Please Provide text ', comment });
         }
+      }
+      // console.log('COMMENT', comment);
+
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ errorMessage: 'P' });
+    });
+});
+
+router.get('/:commentsId/comments', (req, res) => {
+  // console.log('ID', req.params.id)
+  // console.log('Params', req.params);
+  db.findCommentById(req.params.commentsId)
+    .then(comment => {
+      if (comment.length) {
+        return res
+          .status(400)
+          .json({ errorMessage: 'Please Provide text ', comment });
+      } else {
+        res.status(201).json(comment)
       }
       // console.log('COMMENT', comment);
 
