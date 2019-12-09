@@ -34,26 +34,32 @@ router.get('/:id/comments', (req, res) => {
  * description: post new message to comments on id specified.
  * statuses: 500
  */
-router.post('/:commentsId/comments', (req, res) => {
-  // console.log('ID', req.params.id)
-  // console.log('Params', req.params);
-  db.findCommentById(req.params.commentsId)
+router.post('/:id/comments', (req, res) => {
+  // console.log('COMMENT', comment);
+
+  const newComment = {
+    text: req.body.text,
+    post_id: req.params.id
+  }
+
+  db.insertComment(newComment)
     .then(comment => {
-      if (comment.length) {
-        if (!req.body.text || !req.body.post) {
-          return res
-            .status(400)
-            .json({ errorMessage: 'Please Provide text ', comment });
-        }
+
+      console.log(comment);
+      if (comment) {
+        res.status(200).json({ message: "Comment post success" })
+      } else {
+        res.status(404).json({ errorMessage: "The post with the specified ID does not exist" });
       }
-      // console.log('COMMENT', comment);
 
     })
     .catch(err => {
       console.log(err);
-      res.status(500).json({ errorMessage: 'P' });
-    });
-});
+      res.status(500).json({ error: "There was an error while saving the comment to the database." })
+    })
+
+})
+
 
 /**
  * end point: `/api/posts/:commentsId/comments`
@@ -68,7 +74,7 @@ router.get('/:commentsId/comments', (req, res) => {
       if (comment.length) {
         return res
           .status(400)
-          .json({ errorMessage: 'Please Provide text ', comment });
+          .json({ errorMessage: "Please Provide text" });
       } else {
         res.status(201).json(comment)
       }
@@ -77,7 +83,7 @@ router.get('/:commentsId/comments', (req, res) => {
     })
     .catch(err => {
       console.log(err);
-      res.status(500).json({ errorMessage: 'P' });
+      res.status(500).json({ errorMessage: "P" });
     });
 });
 
