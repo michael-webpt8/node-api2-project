@@ -128,8 +128,15 @@ router.delete('/:id', (req, res) => {
     .then(post => {
       console.log(post)
       if (post.length > 0) {
-        db.remove(post);
-        res.status(400).json({ message: "message was deleted" });
+        db.remove(id).then(count => {
+          res.status(200).json({ message: "message was deleted" });
+        })
+          .catch(err => {
+            console.log(err);
+            res.status(500).json({ error: "The post could not be removed" })
+          })
+
+
       } else {
         res.status(404).json({ message: "The post with the specified ID does not exist." });
       }
